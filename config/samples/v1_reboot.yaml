@@ -1,0 +1,9 @@
+apiVersion: rebooto.work/v1
+kind: Reboot
+metadata:
+  labels:
+    app.kubernetes.io/name: rebooto
+    app.kubernetes.io/managed-by: kustomize
+  name: reboot-sample
+spec:
+  # TODO(user): Add fields here
