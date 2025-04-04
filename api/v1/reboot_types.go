@@ -25,17 +25,31 @@ import (
 
 // RebootSpec defines the desired state of Reboot.
 type RebootSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-
-	// Foo is an example field of Reboot. Edit reboot_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// Labels selector for the resources to restart during reconcile
+	MatchLabels map[string]string `json:"matchLabels"`
+	// The name of the target resource to watch (configmap/secret)
+	TargetResources []string `json:"targetResources"`
+	// Target namespaces where to watch for the targets
+	// +optional
+	TargetNamespaces []string `json:"targetNamespaces,omitempty"`
+	// Delay before restart (rollout) triggered
+	GracePeriodSeconds *int64 `json:"gracePeriodSeconds"`
+	// Delay between latest triggered restart
+	// +optional
+	DelayBetweenRestarts *metav1.Time `json:"delayBetweenRestarts,omitempty"`
 }
 
 // RebootStatus defines the observed state of Reboot.
 type RebootStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+
+	// Track last triggered restart time
+	// +optional
+	LastRestartTime *metav1.Timestamp `json:"lastRestartTime,omitempty"`
+	// Restart count
+	// +optional
+	RestartCount *int32 `json:"restartCount,omitempty"`
 }
 
 // +kubebuilder:object:root=true
